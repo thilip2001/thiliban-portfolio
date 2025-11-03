@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, FileText, Mail } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const roles = [
@@ -148,9 +149,13 @@ export default function Home() {
             transition={{ type: "spring", stiffness: 300 }}
             className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-primary shadow-2xl"
           >
-            <div className="w-full h-full bg-linear-to-br from-primary to-blue-600 flex items-center justify-center text-white text-8xl font-bold">
-              TR
-            </div>
+            <Image
+              src="/images/profile.jpg"
+              alt="Thiliban Ravichandran"
+              fill
+              className="object-cover"
+              priority
+            />
           </motion.div>
         </motion.div>
       </div>

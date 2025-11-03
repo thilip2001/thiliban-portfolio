@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Download } from "lucide-react";
+import Image from "next/image";
 
 const skills = {
   Languages: ["JavaScript", "TypeScript", "HTML5", "CSS3", "Python"],
@@ -53,8 +54,28 @@ export default function AboutPage() {
       >
         <Card>
           <CardContent className="p-8">
-            <h2 className="text-2xl font-bold mb-4">Professional Summary</h2>
-            <div className="space-y-4 text-muted-foreground leading-relaxed">
+            <div className="flex flex-col md:flex-row gap-8 items-start">
+              {/* Profile Image */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3 }}
+                className="flex-shrink-0"
+              >
+                <div className="relative w-48 h-48 rounded-lg overflow-hidden border-2 border-primary shadow-lg">
+                  <Image
+                    src="/images/profile.jpg"
+                    alt="Thiliban Ravichandran"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </motion.div>
+
+              {/* Text Content */}
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold mb-4">Professional Summary</h2>
+                <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
                 I&apos;m Thiliban Ravichandran, a dedicated Frontend Developer with a strong passion 
                 for creating exceptional user experiences. With expertise in React, Next.js, and 
@@ -69,12 +90,14 @@ export default function AboutPage() {
                 When I&apos;m not coding, I enjoy exploring new design trends, contributing to open-source 
                 projects, and sharing my knowledge through blog posts and mentoring.
               </p>
-            </div>
-            <div className="mt-8">
-              <Button size="lg">
-                <Download className="mr-2 h-4 w-4" />
-                Download Resume
-              </Button>
+                </div>
+                <div className="mt-8">
+                  <Button size="lg">
+                    <Download className="mr-2 h-4 w-4" />
+                    Download Resume
+                  </Button>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
