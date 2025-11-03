@@ -7,11 +7,10 @@ import { Download } from "lucide-react";
 import Image from "next/image";
 
 const skills = {
-  Languages: ["JavaScript", "TypeScript", "HTML5", "CSS3", "Python"],
-  Frameworks: ["React", "Next.js", "Node.js", "Express"],
-  "UI Libraries": ["Tailwind CSS", "ShadCN UI", "Material-UI", "Ant Design", "Styled Components"],
-  "State Management": ["Redux", "Jotai", "Zustand", "Context API"],
-  Tools: ["Git", "VS Code", "Figma", "Postman", "Docker"],
+  "Languages & Frameworks": ["JavaScript (ES6+)", "TypeScript", "React.js", "Next.js", "HTML5", "CSS3"],
+  "Styling & UI": ["Tailwind CSS", "Radix UI", "Shadcn UI", "Stitches", "Emotion"],
+  "State & Data Management": ["Jotai", "Redux Toolkit", "React Query", "React Hook Form"],
+  "Tools & Workflow": ["Git", "GitHub", "Figma", "Postman", "Vercel", "Netlify", "Agile/Scrum"],
 };
 
 const containerVariants = {
@@ -77,18 +76,22 @@ export default function AboutPage() {
                 <h2 className="text-2xl font-bold mb-4">Professional Summary</h2>
                 <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                I&apos;m Thiliban Ravichandran, a dedicated Frontend Developer with a strong passion 
-                for creating exceptional user experiences. With expertise in React, Next.js, and 
-                TypeScript, I specialize in building modern, performant, and accessible web applications.
+                I&apos;m Thiliban Ravichandran, a Frontend Developer with 3 years of experience building 
+                high-performance, scalable web applications using React, Next.js, TypeScript, and modern 
+                UI libraries. I have proven ability to deliver over 80 impactful features across complex 
+                systems, improving efficiency, scalability, and user experience.
               </p>
               <p>
-                My journey in web development has been driven by a constant desire to learn and 
-                master new technologies. I believe in writing clean, maintainable code and following 
-                best practices to ensure scalability and performance.
+                Currently working at PickYourTrail, I led the migration of a large-scale internal CRM 
+                from legacy architecture to Next.js, designed real-time financial visibility tools, and 
+                developed an automated itinerary creation system that reduced manual effort by 80%. 
+                I&apos;m skilled in translating business requirements into robust technical solutions and 
+                collaborating across functions.
               </p>
               <p>
-                When I&apos;m not coding, I enjoy exploring new design trends, contributing to open-source 
-                projects, and sharing my knowledge through blog posts and mentoring.
+                I received the Rookie of the Year – Outstanding Technical Contributions award for 
+                exceptional impact and performance. I also enjoy mentoring teammates and authoring 
+                internal technical blogs to enhance team knowledge sharing.
               </p>
                 </div>
                 <div className="mt-8">

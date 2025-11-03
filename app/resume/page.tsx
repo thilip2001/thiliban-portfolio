@@ -175,9 +175,10 @@ export default function ResumePage() {
           <div className="flex justify-between items-start">
             <div>
               <h4 className="text-lg font-semibold">
-                Bachelor of Technology in Computer Science
+                Bachelor of Engineering (B.E.)
               </h4>
-              <p className="text-muted-foreground">Your University</p>
+              <p className="text-primary">Government College of Technology</p>
+              <p className="text-sm text-muted-foreground mt-1">CGPA: 8.1/10</p>
             </div>
             <span className="text-sm text-muted-foreground">2018 - 2022</span>
           </div>

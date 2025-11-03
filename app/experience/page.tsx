@@ -7,42 +7,48 @@ import { useState } from "react";
 
 const experiences = [
   {
-    company: "Tech Solutions Inc.",
-    role: "Senior Frontend Developer",
-    duration: "Jan 2023 - Present",
+    company: "PickYourTrail",
+    role: "Software Development Engineer I – Frontend",
+    location: "Chennai, Tamil Nadu",
+    duration: "Dec 2022 - Present",
     description:
-      "Leading frontend development initiatives, architecting scalable solutions, and mentoring junior developers.",
+      "Leading frontend development for a large-scale travel tech CRM, delivering high-impact features across multiple modules.",
     highlights: [
-      "Led migration from Create React App to Next.js, improving performance by 40%",
-      "Implemented comprehensive design system using ShadCN UI and Tailwind CSS",
-      "Reduced bundle size by 35% through code splitting and lazy loading",
-      "Mentored team of 5 junior developers in React best practices",
+      "Led migration of internal CRM from legacy architecture to Next.js, improving scalability and performance",
+      "Designed and implemented real-time financial visibility tools and live cost/margin previews",
+      "Developed automated itinerary creation system, reducing manual effort by 80%",
+      "Revamped refund and cancellation workflows with advanced business logic and validations",
+      "Built interactive dashboards for Sales, Operations, and CX teams",
+      "Migrated client-side storage from LocalStorage to IndexedDB, removing 5MB limits",
+      "Delivered over 80 high-impact features across cost management, payments, refunds, and lead allocation",
+      "Authored internal technical blogs on React Hook Form, Zod, Jotai, and React Query",
+      "Received Rookie of the Year – Outstanding Technical Contributions award",
     ],
   },
   {
-    company: "Digital Innovations Ltd.",
-    role: "Frontend Developer",
-    duration: "Jun 2021 - Dec 2022",
+    company: "SquareShift.co",
+    role: "React Developer – Intern",
+    location: "Chennai, Tamil Nadu",
+    duration: "Sep 2022 - Dec 2022",
     description:
-      "Developed and maintained multiple client-facing applications using React and TypeScript.",
+      "Built and optimized UI components for startup applications, collaborating directly with founders.",
     highlights: [
-      "Built responsive e-commerce platform handling 100k+ monthly users",
-      "Implemented real-time features using WebSockets and React Query",
-      "Improved accessibility scores from 65 to 95 (Lighthouse)",
-      "Collaborated with UX team to implement Figma designs pixel-perfectly",
+      "Built and optimized UI components using React and Redux",
+      "Collaborated with founders and senior engineers to design scalable product features",
+      "Contributed to building responsive and performant user interfaces",
     ],
   },
   {
-    company: "StartUp Ventures",
-    role: "Junior Frontend Developer",
-    duration: "Jan 2020 - May 2021",
+    company: "Cognizant Technology Solutions",
+    role: "Programmer Analyst Trainee – Intern",
+    location: "Chennai, Tamil Nadu",
+    duration: "Jan 2022 - Sep 2022",
     description:
-      "Contributed to building MVP products and learning modern web development practices.",
+      "Developed responsive user interfaces for internal tools and contributed to workflow enhancements.",
     highlights: [
-      "Developed reusable React components for company component library",
-      "Implemented responsive designs using CSS Grid and Flexbox",
-      "Participated in code reviews and learned industry best practices",
-      "Fixed 50+ bugs and improved code quality across multiple projects",
+      "Developed responsive user interfaces using JavaScript, Bootstrap, HTML, and CSS",
+      "Participated in Agile sprints and contributed to UI improvements",
+      "Enhanced workflow efficiency through optimized interface designs",
     ],
   },
 ];
@@ -112,6 +118,11 @@ export default function ExperiencePage() {
                     <p className="text-primary font-semibold mt-1">
                       {exp.company}
                     </p>
+                    {exp.location && (
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {exp.location}
+                      </p>
+                    )}
                     <p className="text-sm text-muted-foreground mt-1">
                       {exp.duration}
                     </p>

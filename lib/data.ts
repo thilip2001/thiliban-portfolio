@@ -1,17 +1,17 @@
 // Personal Information
 export const personalInfo = {
   name: "Thiliban Ravichandran",
-  role: "Frontend Developer",
+  role: "Software Development Engineer I - Frontend",
   tagline: "React • Next.js • TypeScript • Modern UI Libraries",
   email: "thilip2017@gmail.com",
   phone: "+91 90250 30376",
-  location: "India",
+  location: "Chennai, Tamil Nadu, India",
   linkedin: "https://linkedin.com/in/thiliban-ravichandran-aa12051ba",
   github: "https://github.com/thilip2001",
-  bio: `I'm Thiliban Ravichandran, a dedicated Frontend Developer with a strong passion 
-    for creating exceptional user experiences. With expertise in React, Next.js, and 
-    TypeScript, I specialize in building modern, performant, and accessible web applications.`,
+  bio: `Frontend Developer with 3 years of experience building high-performance, scalable web applications using React, Next.js, TypeScript, and modern UI libraries. Proven ability to deliver over 80 impactful features across complex systems, improving efficiency, scalability, and user experience.`,
 };
+
+
 
 // Dynamic roles for typing effect
 export const roles = [
@@ -82,11 +82,12 @@ export const experiences = [
 // Education
 export const education = [
   {
-    degree: "Bachelor of Technology in Computer Science",
-    institution: "Your University",
+    degree: "Bachelor of Engineering (B.E.)",
+    institution: "Government College of Technology",
     duration: "2018 - 2022",
+    cgpa: "8.1/10",
     description:
-      "Focused on software engineering, web technologies, and data structures & algorithms.",
+      "Graduated with strong foundation in software engineering, web technologies, and algorithms.",
   },
 ];
 

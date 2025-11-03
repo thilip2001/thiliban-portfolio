@@ -78,9 +78,9 @@ export default function Home() {
             transition={{ delay: 0.4 }}
             className="text-lg text-muted-foreground max-w-2xl"
           >
-            Passionate about building beautiful, accessible, and performant web
-            applications with modern technologies like React, Next.js, and
-            TypeScript.
+            Frontend Developer with 3 years of experience building high-performance, 
+            scalable web applications using React, Next.js, TypeScript, and modern UI libraries. 
+            Proven ability to deliver impactful features and improve user experience.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -169,9 +169,9 @@ export default function Home() {
       >
         {[
           { label: "Years Experience", value: "3+" },
-          { label: "Projects Completed", value: "20+" },
+          { label: "Features Delivered", value: "80+" },
           { label: "Technologies", value: "15+" },
-          { label: "Happy Clients", value: "10+" },
+          { label: "Team Impact", value: "Award Winner" },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
