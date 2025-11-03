@@ -30,6 +30,7 @@ export function TiptapEditor({ content, onChange, placeholder }: TiptapEditorPro
       }),
     ],
     content,
+    immediatelyRender: false,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
