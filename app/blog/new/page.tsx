@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
+import { TiptapEditor } from "@/components/ui/tiptap-editor";
 import { useAtom } from "jotai";
 import { blogsAtom } from "@/atoms/blogAtom";
 import { useRouter } from "next/navigation";
@@ -98,19 +98,11 @@ export default function NewBlogPage() {
                 <Label htmlFor="content">
                   Content <span className="text-destructive">*</span>
                 </Label>
-                <Textarea
-                  id="content"
-                  placeholder="Write your blog post content here..."
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  rows={12}
-                  required
-                  className="resize-y"
+                <TiptapEditor
+                  content={content}
+                  onChange={setContent}
+                  placeholder="Write your blog post content here... Use the toolbar to format your text."
                 />
-                <p className="text-xs text-muted-foreground">
-                  Note: Rich text editor temporarily replaced with textarea due to React 19 compatibility.
-                  Content will be displayed as plain text.
-                </p>
               </div>
 
               {/* Buttons */}

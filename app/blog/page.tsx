@@ -71,19 +71,20 @@ export default function BlogPage() {
         >
           {blogs.map((blog) => (
             <motion.div key={blog.id} variants={itemVariants}>
-              <Card className="h-full hover:shadow-lg transition-all duration-300 cursor-pointer">
-                <CardHeader>
-                  <CardTitle className="line-clamp-2">{blog.title}</CardTitle>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground mt-2">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      <span>
-                        {new Date(blog.createdAt).toLocaleDateString()}
-                      </span>
+              <Link href={`/blog/${blog.id}`}>
+                <Card className="h-full hover:shadow-lg transition-all duration-300 cursor-pointer">
+                  <CardHeader>
+                    <CardTitle className="line-clamp-2">{blog.title}</CardTitle>
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground mt-2">
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-4 w-4" />
+                        <span>
+                          {new Date(blog.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
+                  </CardHeader>
+                  <CardContent>
                   <p className="text-muted-foreground line-clamp-3 mb-4">
                     {blog.content.substring(0, 150)}
                     {blog.content.length > 150 && "..."}
@@ -101,8 +102,9 @@ export default function BlogPage() {
                       ))}
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Link>
             </motion.div>
           ))}
         </motion.div>
