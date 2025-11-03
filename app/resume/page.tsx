@@ -6,18 +6,156 @@ import { Download, Mail, Phone, Linkedin, Github } from "lucide-react";
 
 export default function ResumePage() {
   const handleDownload = () => {
-    // In a real app, this would trigger PDF download
-    alert("Resume download would be triggered here!");
+    window.print();
   };
 
   return (
     <div className="container mx-auto px-4 py-20 max-w-5xl">
+      <style jsx global>{`
+        @media print {
+          @page {
+            size: A4;
+            margin:0
+          }
+          
+          * {
+            box-sizing: border-box;
+            background: white !important;
+          }
+          
+          html, body {
+            print-color-adjust: exact;
+            -webkit-print-color-adjust: exact;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: white !important;
+            width: 100% !important;
+          }
+          
+          body > * {
+            background: white !important;
+          }
+          
+          header, footer, nav, .no-print {
+            display: none !important;
+          }
+          
+          .print-container {
+            max-width: 100% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: white !important;
+          }
+          
+          .resume-content {
+            background: white !important;
+            color: black !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            padding: 0.5rem 0.6rem !important;
+            font-size: 9pt !important;
+            line-height: 1.3 !important;
+          }
+          
+          .resume-content h2 {
+            font-size: 18pt !important;
+            margin-bottom: 0.3rem !important;
+            margin-top: 0 !important;
+            color: black !important;
+          }
+          
+          .resume-content h3 {
+            font-size: 11pt !important;
+            margin-bottom: 0.25rem !important;
+            margin-top: 0.4rem !important;
+            color: black !important;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.1rem;
+          }
+          
+          .resume-content h4 {
+            font-size: 10pt !important;
+            margin-bottom: 0.1rem !important;
+            color: black !important;
+          }
+          
+          .resume-content p {
+            font-size: 9pt !important;
+            line-height: 1.3 !important;
+            margin: 0.1rem 0 !important;
+            color: #333 !important;
+          }
+          
+          .resume-content ul {
+            margin: 0.2rem 0 !important;
+            padding-left: 1.2rem !important;
+          }
+          
+          .resume-content li {
+            font-size: 8.5pt !important;
+            line-height: 1.3 !important;
+            margin: 0.1rem 0 !important;
+            color: #333 !important;
+          }
+          
+          .resume-content > div {
+            margin-bottom: 0.4rem !important;
+            page-break-inside: avoid !important;
+          }
+          
+          .resume-content .border-b {
+            border-bottom: 1px solid #ddd !important;
+            padding-bottom: 0.3rem !important;
+            margin-bottom: 0.4rem !important;
+          }
+          
+          .resume-content {
+            page-break-inside: auto !important;
+          }
+          
+          .keep-together {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            margin-top: 0.6rem !important;
+          }
+          
+          .mt-8 {
+            margin-top: 1.5rem !important;
+          }
+          
+          .resume-content > div:last-child,
+          .resume-content > div:nth-last-child(2) {
+            page-break-inside: avoid !important;
+          }
+          
+          a {
+            color: #0066cc !important;
+            text-decoration: none;
+            font-size: 9pt !important;
+          }
+          
+          .flex {
+            display: flex !important;
+          }
+          
+          .grid {
+            display: grid !important;
+            gap: 0.3rem !important;
+          }
+          
+          svg {
+            width: 10px !important;
+            height: 10px !important;
+          }
+        }
+      `}</style>
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="text-center mb-12"
+        className="text-center mb-12 no-print"
       >
         <h1 className="text-4xl md:text-5xl font-bold mb-4">Resume</h1>
         <Button onClick={handleDownload} size="lg" className="mt-4">
@@ -31,7 +169,7 @@ export default function ResumePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="bg-card border rounded-lg p-8 md:p-12 space-y-8"
+        className="bg-card border rounded-lg p-8 md:p-12 space-y-8 resume-content print-container"
       >
         {/* Personal Info */}
         <div className="text-center pb-6 border-b">
@@ -77,11 +215,13 @@ export default function ResumePage() {
         <div>
           <h3 className="text-2xl font-bold mb-4">Professional Summary</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Frontend Developer with 3 years of experience in building scalable, performant 
-            web apps using React, Next.js, TypeScript, and modern UI ecosystems. Recognized 
-            for delivering 80+ features across CRM modules, improving operational efficiency, 
-            and driving measurable business impact. Known for clean architecture, proactive 
-            learning, and reliable execution.
+            Frontend Developer with 3+ years of hands-on experience building scalable, performant, 
+            and user-friendly applications using Next.js, TypeScript, React Query, Jotai, and Zod. 
+            Core contributor to Plato (internal CRM) delivering 80+ features across Sales, CX, Visa, 
+            and Finance modules. Currently leading the modernization of PickYourTrail&apos;s main 
+            product from React 16 to Next.js 15 with App Router. Recognized for clean architecture, 
+            measurable business impact, and maintaining &lt;2% post-release bug rate. Passionate about 
+            building reliable systems, mentoring developers, and driving technical excellence.
           </p>
         </div>
 
@@ -124,19 +264,35 @@ export default function ResumePage() {
             <div>
               <div className="flex justify-between items-start mb-2">
                 <div>
-                  <h4 className="text-lg font-semibold">Software Development Engineer I – Frontend</h4>
+                  <h4 className="text-lg font-semibold">Senior Associate – Frontend Developer</h4>
                   <p className="text-primary">PickYourTrail | Chennai, Tamil Nadu</p>
                 </div>
                 <span className="text-sm text-muted-foreground">Dec 2022 - Present</span>
               </div>
-              <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                <li>Delivered 80+ frontend features across Cost Sheet, CUES, Refunds, Dashboards, Chat, and Vouchers modules</li>
-                <li>Implemented real-time dashboards, AI insights (Score.AI, Sherpa), and customer profiling systems</li>
-                <li>Migrated frontend stack to Next.js 15, Tailwind, ShadCN, and React Query</li>
-                <li>Refactored major systems improving maintainability and scalability</li>
-                <li>Introduced unit testing (Vitest) and authored internal technical documentation</li>
-                <li>Awarded &quot;Rookie of the Year&quot; for outstanding technical contributions</li>
-              </ul>
+              <div className="space-y-2">
+                <p className="text-sm font-semibold text-muted-foreground">Plato (Internal CRM Platform):</p>
+                <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground ml-4">
+                  <li>Delivered 80+ features across Sales, Cost Sheet, CX, AO, Visa, and Refund modules</li>
+                  <li>Built AI-powered dashboards (Score.AI, Sherpa) for call analysis and performance insights</li>
+                  <li>Developed CUES customer profiling and Plato Chat with AI summaries</li>
+                  <li>Migrated LocalStorage → IndexedDB improving scalability and offline reliability</li>
+                  <li>Created PDF vouchers (EJS + HTML) for multiple destinations ensuring compliance</li>
+                  <li>Reduced itinerary creation time by 80% through Unity integration in Maggi</li>
+                </ul>
+                <p className="text-sm font-semibold text-muted-foreground mt-3">PickYourTrail (Main Product):</p>
+                <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground ml-4">
+                  <li>Leading migration from React 16 to Next.js 15 with App Router, ShadCN, and Tailwind</li>
+                  <li>Migrating Flight modules with modern architecture and improved performance</li>
+                  <li>Leveraging React Query for robust data fetching and caching strategies</li>
+                  <li>Enhanced developer productivity using GitHub Copilot and Cursor AI</li>
+                </ul>
+                <p className="text-sm font-semibold text-muted-foreground mt-3">Technical Leadership:</p>
+                <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground ml-4">
+                  <li>Introduced Vitest testing and maintained &lt;2% post-release bug rate</li>
+                  <li>Awarded &quot;Rookie of the Year&quot; for outstanding technical contributions</li>
+                  <li>Authored internal tech blogs and mentored junior developers</li>
+                </ul>
+              </div>
             </div>
 
             {/* SquareShift */}
@@ -172,7 +328,7 @@ export default function ResumePage() {
         </div>
 
         {/* Education */}
-        <div>
+        <div className="keep-together">
           <h3 className="text-2xl font-bold mb-4">Education</h3>
           <div className="flex justify-between items-start">
             <div>
@@ -187,7 +343,7 @@ export default function ResumePage() {
         </div>
 
         {/* Achievements */}
-        <div>
+        <div className="keep-together">
           <h3 className="text-2xl font-bold mb-4">Achievements & Contributions</h3>
           <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
             <li>Rookie of the Year – Outstanding Technical Contributions</li>

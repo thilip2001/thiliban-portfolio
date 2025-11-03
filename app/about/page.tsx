@@ -1,14 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Download } from "lucide-react";
 import Image from "next/image";
 
 const skills = {
   "Frontend": ["React.js", "Next.js (App Router)", "TypeScript", "JavaScript (ES6+)", "HTML5", "CSS3"],
-  "Styling & UI": ["Tailwind CSS", "ShadCN", "Radix UI", "Emotion", "Stitches"],
+  "Styling & UI": ["Tailwind CSS", "ShadCN", "Radix UI", "Emotion", "Stitches", "React Virtuoso"],
   "State & Data": ["Jotai", "React Query", "Redux Toolkit", "React Hook Form", "Zod"],
   "Tools & Performance": ["Git", "GitHub", "Figma", "Postman", "Vercel", "IndexedDB", "Vitest", "Agile/Scrum"],
 };
@@ -59,7 +57,7 @@ export default function AboutPage() {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3 }}
-                className="flex-shrink-0"
+                className="shrink-0"
               >
                 <div className="relative w-48 h-48 rounded-lg overflow-hidden border-2 border-primary shadow-lg">
                   <Image
@@ -76,43 +74,68 @@ export default function AboutPage() {
                 <h2 className="text-2xl font-bold mb-4">About Me</h2>
                 <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                I&apos;m Thiliban Ravichandran, a passionate Frontend Developer with 3 years of experience 
-                building high-performance, scalable web applications using React, Next.js, TypeScript, and 
-                modern UI libraries.
+                I&apos;m a <strong>Frontend Developer at PickYourTrail</strong> with 3+ years of hands-on experience 
+                building scalable, performant, and user-friendly applications using Next.js, TypeScript, React Query, 
+                Jotai, and Zod.
               </p>
               <p>
-                At PickYourTrail, I&apos;ve been a core contributor to the <strong>Plato Frontend</strong>, 
-                a large-scale internal CRM platform. I&apos;ve delivered 80+ impactful features across critical 
-                business modules such as Cost Sheet, Sales Metrics, Refunds, Vouchers, Dashboards, and Chat, 
-                helping the platform scale and improve user experience across multiple departments.
+                I&apos;ve been a <strong>core contributor to our internal CRM (Plato)</strong>, a mission-critical 
+                platform used by Sales, CX, Visa, and Finance teams to manage customer journeys, trails, costs, and 
+                operations. I&apos;ve delivered 80+ impactful features across critical business modules such as Cost 
+                Sheet, Sales Metrics, Refunds, Vouchers, Dashboards, and Chat, helping the platform scale and improve 
+                user experience across multiple departments.
               </p>
               <p>
-                I focus on writing clean, modular, and maintainable code, and I&apos;m constantly exploring 
-                better ways to enhance user experience, performance, and developer efficiency. I enjoy solving 
-                complex frontend challenges, collaborating cross-functionally with product and backend teams, 
-                and mentoring fellow developers.
+                Currently, I&apos;m working on <strong>migrating the main PickYourTrail product from React 16 to 
+                Next.js 15</strong>, leveraging ShadCN, Tailwind CSS, and React Query for a modern, modular architecture. 
+                This includes migrating Flight Listing and Flight Details modules using App Router and refactoring legacy 
+                code for better maintainability and performance.
+              </p>
+              <p>
+                I&apos;m passionate about building reliable systems that enhance productivity for internal teams, drive 
+                performance improvements, and deliver measurable business value. I focus on writing clean, modular, and 
+                maintainable code, and I&apos;m constantly exploring better ways to enhance user experience, performance, 
+                and developer efficiency.
               </p>
               <p>
                 My work has directly improved:
               </p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li><strong>Financial transparency</strong> through real-time cost and margin dashboards</li>
-                <li><strong>Team productivity</strong> through automation and optimized workflows</li>
-                <li><strong>Platform stability</strong> through consistent bug resolution and refactors</li>
+                <li><strong>Team productivity</strong> through automation and optimized workflows (80% reduction in itinerary creation time)</li>
+                <li><strong>Platform stability</strong> with &lt;2% post-release bug rate across major deliveries</li>
                 <li><strong>Scalability</strong> through modern architecture migrations (Next.js 15, ShadCN, IndexedDB)</li>
+                <li><strong>Developer efficiency</strong> using GitHub Copilot and Cursor AI for faster development</li>
               </ul>
               <p>
-                I take pride in being a reliable, fast, and quality-driven developer — someone who delivers 
-                not just features, but solutions that matter.
+                I also actively contribute to team knowledge sharing through internal tech blogs, mentoring junior 
+                developers, and participating in frontend guild sessions. I take pride in being a reliable, fast, 
+                and quality-driven developer — someone who delivers not just features, but solutions that matter.
               </p>
                 </div>
-                <div className="mt-8">
-                  <Button size="lg">
-                    <Download className="mr-2 h-4 w-4" />
-                    Download Resume
-                  </Button>
-                </div>
               </div>
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
+
+      {/* Education Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="max-w-4xl mx-auto mb-20"
+      >
+        <Card>
+          <CardContent className="p-8">
+            <h2 className="text-2xl font-bold mb-6">Education</h2>
+            <div className="flex justify-between items-start">
+              <div>
+                <h3 className="text-xl font-semibold">Bachelor of Engineering (B.E.)</h3>
+                <p className="text-primary text-lg mt-1">Government College of Technology, Coimbatore</p>
+                <p className="text-muted-foreground mt-2">CGPA: 8.1/10</p>
+              </div>
+              <span className="text-muted-foreground font-medium">2018 - 2022</span>
             </div>
           </CardContent>
         </Card>
@@ -162,33 +185,6 @@ export default function AboutPage() {
           ))}
         </motion.div>
       </div>
-
-      {/* Education Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        className="max-w-4xl mx-auto mt-20"
-      >
-        <h2 className="text-3xl font-bold text-center mb-12">Education</h2>
-        <Card>
-          <CardContent className="p-8">
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-xl font-semibold">
-                  Bachelor of Technology in Computer Science
-                </h3>
-                <p className="text-muted-foreground mt-1">
-                  Your University • 2018 - 2022
-                </p>
-                <p className="mt-2 text-muted-foreground">
-                  Focused on software engineering, web technologies, and data structures & algorithms.
-                </p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
     </div>
   );
 }

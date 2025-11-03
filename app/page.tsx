@@ -78,9 +78,9 @@ export default function Home() {
             transition={{ delay: 0.4 }}
             className="text-lg text-muted-foreground max-w-2xl"
           >
-            Frontend Developer with 3 years of experience building high-performance, 
-            scalable web applications using React, Next.js, TypeScript, and modern UI libraries. 
-            Proven ability to deliver impactful features and improve user experience.
+            Frontend Developer with 3+ years of experience building scalable, performant applications 
+            using Next.js, TypeScript, React Query, and modern UI libraries. Core contributor to Plato 
+            (internal CRM) and currently leading the migration of PickYourTrail&apos;s main product to Next.js 15.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -170,8 +170,8 @@ export default function Home() {
         {[
           { label: "Years Experience", value: "3+" },
           { label: "Features Delivered", value: "80+" },
-          { label: "Technologies", value: "15+" },
-          { label: "Team Impact", value: "Award Winner" },
+          { label: "Bug Rate", value: "<2%" },
+          { label: "Efficiency Gain", value: "80%" },
         ].map((stat, index) => (
           <motion.div
             key={stat.label}
