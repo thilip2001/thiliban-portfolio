@@ -7,26 +7,46 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Tag, ArrowLeft, Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { notFound } from "next/navigation";
+import { use } from "react";
 
 interface BlogPostPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default function BlogPostPage({ params }: BlogPostPageProps) {
+  const { id } = use(params);
   const [blogs, setBlogs] = useAtom(blogsAtom);
   const router = useRouter();
-  const blog = blogs.find((b) => b.id === params.id);
+  const blog = blogs.find((b) => b.id === id);
 
   if (!blog) {
-    notFound();
+    return (
+      <div className="container mx-auto px-4 py-20 max-w-2xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center space-y-6"
+        >
+          <h1 className="text-4xl font-bold">Blog Post Not Found</h1>
+          <p className="text-lg text-muted-foreground">
+            The blog post you&apos;re looking for doesn&apos;t exist or has been deleted.
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button asChild>
+              <Link href="/blog">View All Posts</Link>
+            </Button>
+          </div>
+        </motion.div>
+      </div>
+    );
   }
 
   const handleDelete = () => {
     if (confirm("Are you sure you want to delete this blog post?")) {
-      setBlogs(blogs.filter((b) => b.id !== params.id));
+      setBlogs(blogs.filter((b) => b.id === id));
       router.push("/blog");
     }
   };

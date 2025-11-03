@@ -8,30 +8,47 @@ import { Card } from "@/components/ui/card";
 import { TiptapEditor } from "@/components/ui/tiptap-editor";
 import { useAtom } from "jotai";
 import { blogsAtom } from "@/atoms/blogAtom";
-import { useState } from "react";
+import { useState, use } from "react";
 import { useRouter } from "next/navigation";
-import { notFound } from "next/navigation";
-import { ArrowLeft, Save } from "lucide-react";
 import Link from "next/link";
+import { ArrowLeft, Save } from "lucide-react";
 
 interface EditBlogPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
 export default function EditBlogPage({ params }: EditBlogPageProps) {
+  const { id } = use(params);
   const [blogs, setBlogs] = useAtom(blogsAtom);
   const router = useRouter();
-  const blog = blogs.find((b) => b.id === params.id);
+  const blog = blogs.find((b) => b.id === id);
+
+  const [title, setTitle] = useState(blog?.title || "");
+  const [content, setContent] = useState(blog?.content || "");
+  const [tags, setTags] = useState(blog?.tags?.join(", ") || "");
 
   if (!blog) {
-    notFound();
+    return (
+      <div className="container mx-auto px-4 py-20 max-w-2xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center space-y-6"
+        >
+          <h1 className="text-4xl font-bold">Blog Post Not Found</h1>
+          <p className="text-lg text-muted-foreground">
+            The blog post you&apos;re looking for doesn&apos;t exist.
+          </p>
+          <Button asChild>
+            <Link href="/blog">View All Posts</Link>
+          </Button>
+        </motion.div>
+      </div>
+    );
   }
-
-  const [title, setTitle] = useState(blog.title);
-  const [content, setContent] = useState(blog.content);
-  const [tags, setTags] = useState(blog.tags?.join(", ") || "");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,8 +63,8 @@ export default function EditBlogPage({ params }: EditBlogPageProps) {
         .filter(Boolean),
     };
 
-    setBlogs(blogs.map((b) => (b.id === params.id ? updatedBlog : b)));
-    router.push(`/blog/${params.id}`);
+    setBlogs(blogs.map((b) => (b.id === id ? updatedBlog : b)));
+    router.push(`/blog/${id}`);
   };
 
   return (
@@ -60,7 +77,7 @@ export default function EditBlogPage({ params }: EditBlogPageProps) {
         className="mb-8"
       >
         <Button asChild variant="ghost">
-          <Link href={`/blog/${params.id}`}>
+          <Link href={`/blog/${id}`}>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Post
           </Link>
@@ -124,7 +141,7 @@ export default function EditBlogPage({ params }: EditBlogPageProps) {
                   type="button"
                   variant="outline"
                   size="lg"
-                  onClick={() => router.push(`/blog/${params.id}`)}
+                  onClick={() => router.push(`/blog/${id}`)}
                 >
                   Cancel
                 </Button>

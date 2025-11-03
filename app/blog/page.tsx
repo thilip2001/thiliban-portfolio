@@ -25,6 +25,7 @@ const itemVariants = {
 
 export default function BlogPage() {
   const [blogs] = useAtom(blogsAtom);
+console.log(blogs);
 
   return (
     <div className="container mx-auto px-4 py-20">
