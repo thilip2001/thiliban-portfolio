@@ -84,12 +84,10 @@ export default function BlogPage() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div
-                    className="text-muted-foreground line-clamp-3 mb-4"
-                    dangerouslySetInnerHTML={{
-                      __html: blog.content.substring(0, 150) + "...",
-                    }}
-                  />
+                  <p className="text-muted-foreground line-clamp-3 mb-4">
+                    {blog.content.substring(0, 150)}
+                    {blog.content.length > 150 && "..."}
+                  </p>
                   {blog.tags && blog.tags.length > 0 && (
                     <div className="flex items-center gap-2 flex-wrap">
                       <Tag className="h-4 w-4 text-muted-foreground" />

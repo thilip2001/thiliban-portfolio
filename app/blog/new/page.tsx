@@ -5,28 +5,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { useAtom } from "jotai";
 import { blogsAtom } from "@/atoms/blogAtom";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-import "react-quill/dist/quill.snow.css";
-
-// Dynamically import React Quill to avoid SSR issues
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import { useState } from "react";
 
 export default function NewBlogPage() {
   const [blogs, setBlogs] = useAtom(blogsAtom);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tags, setTags] = useState("");
-  const [mounted, setMounted] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    const timer = setTimeout(() => setMounted(true), 0);
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,21 +40,6 @@ export default function NewBlogPage() {
     setBlogs([newBlog, ...blogs]);
     router.push("/blog");
   };
-
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, 3, false] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["blockquote", "code-block"],
-      ["link"],
-      ["clean"],
-    ],
-  };
-
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <div className="container mx-auto px-4 py-20 max-w-4xl">
@@ -123,16 +98,19 @@ export default function NewBlogPage() {
                 <Label htmlFor="content">
                   Content <span className="text-destructive">*</span>
                 </Label>
-                <div className="bg-background border rounded-md">
-                  <ReactQuill
-                    theme="snow"
-                    value={content}
-                    onChange={setContent}
-                    modules={modules}
-                    placeholder="Write your blog post content here..."
-                    className="h-64"
-                  />
-                </div>
+                <Textarea
+                  id="content"
+                  placeholder="Write your blog post content here..."
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  rows={12}
+                  required
+                  className="resize-y"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Note: Rich text editor temporarily replaced with textarea due to React 19 compatibility.
+                  Content will be displayed as plain text.
+                </p>
               </div>
 
               {/* Buttons */}
