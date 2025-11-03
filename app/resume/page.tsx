@@ -77,40 +77,40 @@ export default function ResumePage() {
         <div>
           <h3 className="text-2xl font-bold mb-4">Professional Summary</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Passionate Frontend Developer with 3+ years of experience building
-            modern, responsive web applications. Expert in React, Next.js, and
-            TypeScript with a strong focus on performance optimization, accessibility,
-            and user experience. Proven track record of delivering high-quality
-            solutions and mentoring junior developers.
+            Frontend Developer with 3 years of experience in building scalable, performant 
+            web apps using React, Next.js, TypeScript, and modern UI ecosystems. Recognized 
+            for delivering 80+ features across CRM modules, improving operational efficiency, 
+            and driving measurable business impact. Known for clean architecture, proactive 
+            learning, and reliable execution.
           </p>
         </div>
 
         {/* Skills */}
         <div>
-          <h3 className="text-2xl font-bold mb-4">Technical Skills</h3>
+          <h3 className="text-2xl font-bold mb-4">Core Skills</h3>
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <h4 className="font-semibold mb-2">Languages & Core</h4>
+              <h4 className="font-semibold mb-2">Frontend</h4>
               <p className="text-sm text-muted-foreground">
-                JavaScript, TypeScript, HTML5, CSS3, Python
+                React.js, Next.js (App Router), TypeScript, JavaScript (ES6+)
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">Frameworks & Libraries</h4>
+              <h4 className="font-semibold mb-2">Styling & UI</h4>
               <p className="text-sm text-muted-foreground">
-                React, Next.js, Node.js, Express, Framer Motion
+                Tailwind CSS, ShadCN, Radix UI, Emotion, Stitches
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">UI & Styling</h4>
+              <h4 className="font-semibold mb-2">State & Data</h4>
               <p className="text-sm text-muted-foreground">
-                Tailwind CSS, ShadCN UI, Material-UI, Styled Components
+                Jotai, React Query, Redux Toolkit, React Hook Form, Zod
               </p>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">State Management & Tools</h4>
+              <h4 className="font-semibold mb-2">Tools & Performance</h4>
               <p className="text-sm text-muted-foreground">
-                Redux, Jotai, Zustand, Git, Docker, Figma
+                Git, GitHub, Figma, Postman, Vercel, IndexedDB, Vitest, Agile/Scrum
               </p>
             </div>
           </div>
@@ -118,52 +118,54 @@ export default function ResumePage() {
 
         {/* Experience */}
         <div>
-          <h3 className="text-2xl font-bold mb-6">Work Experience</h3>
+          <h3 className="text-2xl font-bold mb-6">Professional Experience</h3>
           <div className="space-y-6">
-            {/* Experience 1 */}
+            {/* PickYourTrail */}
             <div>
               <div className="flex justify-between items-start mb-2">
                 <div>
-                  <h4 className="text-lg font-semibold">Senior Frontend Developer</h4>
-                  <p className="text-primary">Tech Solutions Inc.</p>
+                  <h4 className="text-lg font-semibold">Software Development Engineer I – Frontend</h4>
+                  <p className="text-primary">PickYourTrail | Chennai, Tamil Nadu</p>
                 </div>
-                <span className="text-sm text-muted-foreground">Jan 2023 - Present</span>
+                <span className="text-sm text-muted-foreground">Dec 2022 - Present</span>
               </div>
               <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                <li>Led migration from Create React App to Next.js, improving performance by 40%</li>
-                <li>Implemented comprehensive design system using ShadCN UI</li>
-                <li>Mentored team of 5 junior developers in React best practices</li>
+                <li>Delivered 80+ frontend features across Cost Sheet, CUES, Refunds, Dashboards, Chat, and Vouchers modules</li>
+                <li>Implemented real-time dashboards, AI insights (Score.AI, Sherpa), and customer profiling systems</li>
+                <li>Migrated frontend stack to Next.js 15, Tailwind, ShadCN, and React Query</li>
+                <li>Refactored major systems improving maintainability and scalability</li>
+                <li>Introduced unit testing (Vitest) and authored internal technical documentation</li>
+                <li>Awarded &quot;Rookie of the Year&quot; for outstanding technical contributions</li>
               </ul>
             </div>
 
-            {/* Experience 2 */}
+            {/* SquareShift */}
             <div>
               <div className="flex justify-between items-start mb-2">
                 <div>
-                  <h4 className="text-lg font-semibold">Frontend Developer</h4>
-                  <p className="text-primary">Digital Innovations Ltd.</p>
+                  <h4 className="text-lg font-semibold">React Developer – Intern</h4>
+                  <p className="text-primary">SquareShift | Chennai, Tamil Nadu</p>
                 </div>
-                <span className="text-sm text-muted-foreground">Jun 2021 - Dec 2022</span>
+                <span className="text-sm text-muted-foreground">Sep 2022 - Dec 2022</span>
               </div>
               <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                <li>Built responsive e-commerce platform handling 100k+ monthly users</li>
-                <li>Improved accessibility scores from 65 to 95 (Lighthouse)</li>
-                <li>Implemented real-time features using WebSockets and React Query</li>
+                <li>Built reusable UI components using React and Redux</li>
+                <li>Collaborated with senior engineers on scalable architecture and performance optimization</li>
               </ul>
             </div>
 
-            {/* Experience 3 */}
+            {/* Cognizant */}
             <div>
               <div className="flex justify-between items-start mb-2">
                 <div>
-                  <h4 className="text-lg font-semibold">Junior Frontend Developer</h4>
-                  <p className="text-primary">StartUp Ventures</p>
+                  <h4 className="text-lg font-semibold">Programmer Analyst Trainee – Intern</h4>
+                  <p className="text-primary">Cognizant Technology Solutions | Chennai, Tamil Nadu</p>
                 </div>
-                <span className="text-sm text-muted-foreground">Jan 2020 - May 2021</span>
+                <span className="text-sm text-muted-foreground">Jan 2022 - Sep 2022</span>
               </div>
               <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                <li>Developed reusable React components for company component library</li>
-                <li>Implemented responsive designs using CSS Grid and Flexbox</li>
+                <li>Developed responsive user interfaces using JavaScript, Bootstrap, and CSS</li>
+                <li>Contributed to Agile sprint cycles for internal tool enhancements</li>
               </ul>
             </div>
           </div>
@@ -177,11 +179,24 @@ export default function ResumePage() {
               <h4 className="text-lg font-semibold">
                 Bachelor of Engineering (B.E.)
               </h4>
-              <p className="text-primary">Government College of Technology</p>
+              <p className="text-primary">Government College of Technology, Coimbatore</p>
               <p className="text-sm text-muted-foreground mt-1">CGPA: 8.1/10</p>
             </div>
             <span className="text-sm text-muted-foreground">2018 - 2022</span>
           </div>
+        </div>
+
+        {/* Achievements */}
+        <div>
+          <h3 className="text-2xl font-bold mb-4">Achievements & Contributions</h3>
+          <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
+            <li>Rookie of the Year – Outstanding Technical Contributions</li>
+            <li>Internal blog author (React Hook Form + Zod, Jotai, React Query)</li>
+            <li>Mentor for junior developers</li>
+            <li>AI Hackathon contributor (Sherpa & Score.AI)</li>
+            <li>80+ features delivered across key CRM modules</li>
+            <li>Next.js migration leader (Next.js 13 → 15)</li>
+          </ul>
         </div>
       </motion.div>
     </div>

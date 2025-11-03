@@ -7,10 +7,10 @@ import { Download } from "lucide-react";
 import Image from "next/image";
 
 const skills = {
-  "Languages & Frameworks": ["JavaScript (ES6+)", "TypeScript", "React.js", "Next.js", "HTML5", "CSS3"],
-  "Styling & UI": ["Tailwind CSS", "Radix UI", "Shadcn UI", "Stitches", "Emotion"],
-  "State & Data Management": ["Jotai", "Redux Toolkit", "React Query", "React Hook Form"],
-  "Tools & Workflow": ["Git", "GitHub", "Figma", "Postman", "Vercel", "Netlify", "Agile/Scrum"],
+  "Frontend": ["React.js", "Next.js (App Router)", "TypeScript", "JavaScript (ES6+)", "HTML5", "CSS3"],
+  "Styling & UI": ["Tailwind CSS", "ShadCN", "Radix UI", "Emotion", "Stitches"],
+  "State & Data": ["Jotai", "React Query", "Redux Toolkit", "React Hook Form", "Zod"],
+  "Tools & Performance": ["Git", "GitHub", "Figma", "Postman", "Vercel", "IndexedDB", "Vitest", "Agile/Scrum"],
 };
 
 const containerVariants = {
@@ -73,25 +73,37 @@ export default function AboutPage() {
 
               {/* Text Content */}
               <div className="flex-1">
-                <h2 className="text-2xl font-bold mb-4">Professional Summary</h2>
+                <h2 className="text-2xl font-bold mb-4">About Me</h2>
                 <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                I&apos;m Thiliban Ravichandran, a Frontend Developer with 3 years of experience building 
-                high-performance, scalable web applications using React, Next.js, TypeScript, and modern 
-                UI libraries. I have proven ability to deliver over 80 impactful features across complex 
-                systems, improving efficiency, scalability, and user experience.
+                I&apos;m Thiliban Ravichandran, a passionate Frontend Developer with 3 years of experience 
+                building high-performance, scalable web applications using React, Next.js, TypeScript, and 
+                modern UI libraries.
               </p>
               <p>
-                Currently working at PickYourTrail, I led the migration of a large-scale internal CRM 
-                from legacy architecture to Next.js, designed real-time financial visibility tools, and 
-                developed an automated itinerary creation system that reduced manual effort by 80%. 
-                I&apos;m skilled in translating business requirements into robust technical solutions and 
-                collaborating across functions.
+                At PickYourTrail, I&apos;ve been a core contributor to the <strong>Plato Frontend</strong>, 
+                a large-scale internal CRM platform. I&apos;ve delivered 80+ impactful features across critical 
+                business modules such as Cost Sheet, Sales Metrics, Refunds, Vouchers, Dashboards, and Chat, 
+                helping the platform scale and improve user experience across multiple departments.
               </p>
               <p>
-                I received the Rookie of the Year – Outstanding Technical Contributions award for 
-                exceptional impact and performance. I also enjoy mentoring teammates and authoring 
-                internal technical blogs to enhance team knowledge sharing.
+                I focus on writing clean, modular, and maintainable code, and I&apos;m constantly exploring 
+                better ways to enhance user experience, performance, and developer efficiency. I enjoy solving 
+                complex frontend challenges, collaborating cross-functionally with product and backend teams, 
+                and mentoring fellow developers.
+              </p>
+              <p>
+                My work has directly improved:
+              </p>
+              <ul className="list-disc list-inside space-y-2 ml-4">
+                <li><strong>Financial transparency</strong> through real-time cost and margin dashboards</li>
+                <li><strong>Team productivity</strong> through automation and optimized workflows</li>
+                <li><strong>Platform stability</strong> through consistent bug resolution and refactors</li>
+                <li><strong>Scalability</strong> through modern architecture migrations (Next.js 15, ShadCN, IndexedDB)</li>
+              </ul>
+              <p>
+                I take pride in being a reliable, fast, and quality-driven developer — someone who delivers 
+                not just features, but solutions that matter.
               </p>
                 </div>
                 <div className="mt-8">
