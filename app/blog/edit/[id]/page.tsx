@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Save, Loader2 } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import { isAdminAtom } from "@/atoms/blogAtom";
 
 interface Blog {
   id: string;
@@ -58,17 +60,12 @@ export default function EditBlogPage({ params }: EditBlogPageProps) {
   const { id } = use(params);
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin] = useAtom(isAdminAtom);
 
   // Check admin access
-  useState(() => {
-    const adminKey = localStorage.getItem("adminKey");
-    if (adminKey !== "thiliban-admin-2024") {
-      router.push("/blog");
-    } else {
-      setIsAdmin(true);
-    }
-  });
+  if (!isAdmin) {
+    router.push("/blog");
+  }
 
   const { data: blog, isLoading, error } = useQuery({
     queryKey: ["blog", id],

@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PenSquare, Calendar, Loader2, Clock } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useAtom } from "jotai";
+import { isAdminAtom } from "@/atoms/blogAtom";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -46,14 +47,7 @@ async function fetchBlogs(): Promise<Blog[]> {
 }
 
 export default function BlogPage() {
-  // Simple auth check - only allow blog creation in development or for admin
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  // Check if user is admin (you can replace this with proper auth later)
-  useState(() => {
-    const adminKey = localStorage.getItem("adminKey");
-    setIsAdmin(adminKey === "thiliban-admin-2024");
-  });
+  const [isAdmin] = useAtom(isAdminAtom);
 
   const { data: blogs = [], isLoading, error } = useQuery({
     queryKey: ["blogs"],
@@ -89,7 +83,7 @@ export default function BlogPage() {
         transition={{ duration: 0.5 }}
         className="text-center mb-16"
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-linear-to-r from-primary to-primary/60">
           Blog
         </h1>
         <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-6 leading-relaxed">

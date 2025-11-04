@@ -21,3 +21,12 @@ export const currentBlogAtom = atom<Partial<Blog>>({
   content: '',
   tags: [],
 });
+
+// Admin authentication state - persisted in localStorage
+// Using undefined check for SSR compatibility
+export const isAdminAtom = atomWithStorage<boolean>(
+  'thiliban-admin-auth',
+  false,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  createJSONStorage(() => (typeof window !== 'undefined' ? localStorage : undefined as any))
+);

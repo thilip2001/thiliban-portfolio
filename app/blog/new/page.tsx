@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
+import { useAtom } from "jotai";
+import { isAdminAtom } from "@/atoms/blogAtom";
 
 interface CreateBlogData {
   title: string;
@@ -34,19 +36,14 @@ async function createBlog(data: CreateBlogData) {
 export default function NewBlogPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin] = useAtom(isAdminAtom);
   const router = useRouter();
   const queryClient = useQueryClient();
 
   // Check admin access
-  useState(() => {
-    const adminKey = localStorage.getItem("adminKey");
-    if (adminKey !== "thiliban-admin-2024") {
-      router.push("/blog");
-    } else {
-      setIsAdmin(true);
-    }
-  });
+  if (!isAdmin) {
+    router.push("/blog");
+  }
 
   const mutation = useMutation({
     mutationFn: createBlog,

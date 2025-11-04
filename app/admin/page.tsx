@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAtom } from "jotai";
+import { isAdminAtom } from "@/atoms/blogAtom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,22 +13,15 @@ import { Lock, LogOut } from "lucide-react";
 
 export default function AdminPage() {
   const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useAtom(isAdminAtom);
   const router = useRouter();
-
-  // Check if already logged in
-  useState(() => {
-    const adminKey = localStorage.getItem("adminKey");
-    setIsLoggedIn(adminKey === "thiliban-admin-2024");
-  });
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     
     // Simple password check (replace with your actual password)
     if (password === "Thiliban@2024") {
-      localStorage.setItem("adminKey", "thiliban-admin-2024");
-      setIsLoggedIn(true);
+      setIsAdmin(true);
       alert("Admin access granted!");
       router.push("/blog");
     } else {
@@ -35,12 +30,11 @@ export default function AdminPage() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("adminKey");
-    setIsLoggedIn(false);
+    setIsAdmin(false);
     router.push("/blog");
   };
 
-  if (isLoggedIn) {
+  if (isAdmin) {
     return (
       <div className="container mx-auto px-4 py-20 max-w-md">
         <motion.div

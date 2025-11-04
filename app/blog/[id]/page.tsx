@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Calendar, ArrowLeft, Edit, Trash2, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { use, useState } from "react";
+import { use } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import { isAdminAtom } from "@/atoms/blogAtom";
 
 interface Blog {
   id: string;
@@ -46,13 +48,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   const { id } = use(params);
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  // Check admin access
-  useState(() => {
-    const adminKey = localStorage.getItem("adminKey");
-    setIsAdmin(adminKey === "thiliban-admin-2024");
-  });
+  const [isAdmin] = useAtom(isAdminAtom);
 
   const { data: blog, isLoading, error } = useQuery({
     queryKey: ["blog", id],
