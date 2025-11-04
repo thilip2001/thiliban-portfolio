@@ -20,7 +20,7 @@ export default function AdminPage() {
     e.preventDefault();
     
     // Check password from environment variable
-    const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "Thiliban@2024";
+    const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "Thiliban@832001";
     if (password === adminPassword) {
       setIsAdmin(true);
       alert("Admin access granted!");
