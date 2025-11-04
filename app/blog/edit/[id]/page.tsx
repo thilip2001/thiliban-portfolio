@@ -6,12 +6,26 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { TiptapEditor } from "@/components/ui/tiptap-editor";
-import { useAtom } from "jotai";
-import { blogsAtom } from "@/atoms/blogAtom";
 import { useState, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Save, Loader2 } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+interface Blog {
+  id: string;
+  title: string;
+  content: string;
+  excerpt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface UpdateBlogData {
+  title: string;
+  content: string;
+  excerpt?: string;
+}
 
 interface EditBlogPageProps {
   params: Promise<{
@@ -19,17 +33,88 @@ interface EditBlogPageProps {
   }>;
 }
 
+async function fetchBlog(id: string): Promise<Blog> {
+  const response = await fetch(`/api/blogs/${id}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch blog post");
+  }
+  const data = await response.json();
+  return data.blog;
+}
+
+async function updateBlog(id: string, data: UpdateBlogData) {
+  const response = await fetch(`/api/blogs/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to update blog post");
+  }
+  return response.json();
+}
+
 export default function EditBlogPage({ params }: EditBlogPageProps) {
   const { id } = use(params);
-  const [blogs, setBlogs] = useAtom(blogsAtom);
   const router = useRouter();
-  const blog = blogs.find((b) => b.id === id);
+  const queryClient = useQueryClient();
 
-  const [title, setTitle] = useState(blog?.title || "");
-  const [content, setContent] = useState(blog?.content || "");
-  const [tags, setTags] = useState(blog?.tags?.join(", ") || "");
+  const { data: blog, isLoading, error } = useQuery({
+    queryKey: ["blog", id],
+    queryFn: () => fetchBlog(id),
+  });
 
-  if (!blog) {
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize form fields when blog data loads (only once)
+  if (blog && !isInitialized) {
+    setTitle(blog.title);
+    setContent(blog.content);
+    setIsInitialized(true);
+  }
+
+  const updateMutation = useMutation({
+    mutationFn: (data: UpdateBlogData) => updateBlog(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["blog", id] });
+      queryClient.invalidateQueries({ queryKey: ["blogs"] });
+      router.push(`/blog/${id}`);
+    },
+    onError: (error) => {
+      alert(`Error: ${error.message}`);
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!title.trim() || !content.trim()) {
+      alert("Please fill in all required fields");
+      return;
+    }
+
+    // Extract excerpt from content
+    const plainText = content.replace(/<[^>]*>/g, "");
+    const excerpt = plainText.substring(0, 150) + (plainText.length > 150 ? "..." : "");
+
+    updateMutation.mutate({
+      title: title.trim(),
+      content: content.trim(),
+      excerpt,
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto px-4 py-20 flex items-center justify-center min-h-[60vh]">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (error || !blog) {
     return (
       <div className="container mx-auto px-4 py-20 max-w-2xl">
         <motion.div
@@ -49,23 +134,6 @@ export default function EditBlogPage({ params }: EditBlogPageProps) {
       </div>
     );
   }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const updatedBlog = {
-      ...blog,
-      title,
-      content,
-      tags: tags
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter(Boolean),
-    };
-
-    setBlogs(blogs.map((b) => (b.id === id ? updatedBlog : b)));
-    router.push(`/blog/${id}`);
-  };
 
   return (
     <div className="container mx-auto px-4 py-20 max-w-4xl">
@@ -112,16 +180,6 @@ export default function EditBlogPage({ params }: EditBlogPageProps) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="tags">Tags (comma separated)</Label>
-                <Input
-                  id="tags"
-                  value={tags}
-                  onChange={(e) => setTags(e.target.value)}
-                  placeholder="React, TypeScript, Next.js..."
-                />
-              </div>
-
-              <div className="space-y-2">
                 <Label htmlFor="content">Content</Label>
                 <div className="border rounded-md p-4">
                   <TiptapEditor
@@ -133,15 +191,25 @@ export default function EditBlogPage({ params }: EditBlogPageProps) {
               </div>
 
               <div className="flex gap-4 pt-4">
-                <Button type="submit" size="lg" className="w-full sm:w-auto">
-                  <Save className="mr-2 h-4 w-4" />
-                  Save Changes
+                <Button 
+                  type="submit" 
+                  size="lg" 
+                  className="w-full sm:w-auto"
+                  disabled={updateMutation.isPending}
+                >
+                  {updateMutation.isPending ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <Save className="mr-2 h-4 w-4" />
+                  )}
+                  {updateMutation.isPending ? "Saving..." : "Save Changes"}
                 </Button>
                 <Button
                   type="button"
                   variant="outline"
                   size="lg"
                   onClick={() => router.push(`/blog/${id}`)}
+                  disabled={updateMutation.isPending}
                 >
                   Cancel
                 </Button>

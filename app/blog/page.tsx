@@ -3,10 +3,9 @@
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useAtom } from "jotai";
-import { blogsAtom } from "@/atoms/blogAtom";
 import Link from "next/link";
-import { PenSquare, Calendar, Tag } from "lucide-react";
+import { PenSquare, Calendar, Loader2 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -23,9 +22,49 @@ const itemVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
+interface Blog {
+  id: string;
+  title: string;
+  content: string;
+  excerpt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+async function fetchBlogs(): Promise<Blog[]> {
+  const response = await fetch("/api/blogs");
+  if (!response.ok) {
+    throw new Error("Failed to fetch blogs");
+  }
+  const data = await response.json();
+  return data.blogs;
+}
+
 export default function BlogPage() {
-  const [blogs] = useAtom(blogsAtom);
-console.log(blogs);
+  const { data: blogs = [], isLoading, error } = useQuery({
+    queryKey: ["blogs"],
+    queryFn: fetchBlogs,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto px-4 py-20">
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-20">
+        <div className="text-center py-20">
+          <p className="text-red-500 text-lg">Failed to load blogs. Please try again later.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-20">
@@ -86,23 +125,10 @@ console.log(blogs);
                     </div>
                   </CardHeader>
                   <CardContent>
-                  <p className="text-muted-foreground line-clamp-3 mb-4">
-                    {blog.content.substring(0, 150)}
-                    {blog.content.length > 150 && "..."}
-                  </p>
-                  {blog.tags && blog.tags.length > 0 && (
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <Tag className="h-4 w-4 text-muted-foreground" />
-                      {blog.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-xs px-2 py-1 rounded-full bg-primary/10 text-primary"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+                    <p className="text-muted-foreground line-clamp-3">
+                      {blog.excerpt || blog.content.replace(/<[^>]*>/g, "").substring(0, 150)}
+                      {!blog.excerpt && blog.content.length > 150 && "..."}
+                    </p>
                   </CardContent>
                 </Card>
               </Link>

@@ -6,17 +6,47 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TiptapEditor } from "@/components/ui/tiptap-editor";
-import { useAtom } from "jotai";
-import { blogsAtom } from "@/atoms/blogAtom";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Loader2 } from "lucide-react";
+
+interface CreateBlogData {
+  title: string;
+  content: string;
+  excerpt?: string;
+}
+
+async function createBlog(data: CreateBlogData) {
+  const response = await fetch("/api/blogs", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to create blog post");
+  }
+
+  return response.json();
+}
 
 export default function NewBlogPage() {
-  const [blogs, setBlogs] = useAtom(blogsAtom);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
   const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: createBlog,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["blogs"] });
+      router.push("/blog");
+    },
+    onError: (error) => {
+      alert(`Error: ${error.message}`);
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,19 +56,15 @@ export default function NewBlogPage() {
       return;
     }
 
-    const newBlog = {
-      id: Date.now().toString(),
+    // Extract excerpt from content (first 150 chars without HTML)
+    const plainText = content.replace(/<[^>]*>/g, "");
+    const excerpt = plainText.substring(0, 150) + (plainText.length > 150 ? "..." : "");
+
+    mutation.mutate({
       title: title.trim(),
       content: content.trim(),
-      createdAt: new Date(),
-      tags: tags
-        .split(",")
-        .map((tag) => tag.trim())
-        .filter((tag) => tag),
-    };
-
-    setBlogs([newBlog, ...blogs]);
-    router.push("/blog");
+      excerpt,
+    });
   };
 
   return (
@@ -82,16 +108,7 @@ export default function NewBlogPage() {
                 />
               </div>
 
-              {/* Tags */}
-              <div className="space-y-2">
-                <Label htmlFor="tags">Tags (comma separated)</Label>
-                <Input
-                  id="tags"
-                  placeholder="React, TypeScript, Web Development"
-                  value={tags}
-                  onChange={(e) => setTags(e.target.value)}
-                />
-              </div>
+
 
               {/* Content Editor */}
               <div className="space-y-2">
@@ -107,14 +124,23 @@ export default function NewBlogPage() {
 
               {/* Buttons */}
               <div className="flex gap-4 pt-12">
-                <Button type="submit" size="lg" className="flex-1">
-                  Publish Post
+                <Button 
+                  type="submit" 
+                  size="lg" 
+                  className="flex-1"
+                  disabled={mutation.isPending}
+                >
+                  {mutation.isPending && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  {mutation.isPending ? "Publishing..." : "Publish Post"}
                 </Button>
                 <Button
                   type="button"
                   variant="outline"
                   size="lg"
                   onClick={() => router.push("/blog")}
+                  disabled={mutation.isPending}
                 >
                   Cancel
                 </Button>

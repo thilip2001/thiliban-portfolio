@@ -1,13 +1,21 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useAtom } from "jotai";
-import { blogsAtom } from "@/atoms/blogAtom";
 import { Button } from "@/components/ui/button";
-import { Calendar, Tag, ArrowLeft, Edit, Trash2 } from "lucide-react";
+import { Calendar, ArrowLeft, Edit, Trash2, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { use } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+interface Blog {
+  id: string;
+  title: string;
+  content: string;
+  excerpt?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -15,13 +23,61 @@ interface BlogPostPageProps {
   }>;
 }
 
+async function fetchBlog(id: string): Promise<Blog> {
+  const response = await fetch(`/api/blogs/${id}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch blog post");
+  }
+  const data = await response.json();
+  return data.blog;
+}
+
+async function deleteBlog(id: string) {
+  const response = await fetch(`/api/blogs/${id}`, {
+    method: "DELETE",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to delete blog post");
+  }
+  return response.json();
+}
+
 export default function BlogPostPage({ params }: BlogPostPageProps) {
   const { id } = use(params);
-  const [blogs, setBlogs] = useAtom(blogsAtom);
   const router = useRouter();
-  const blog = blogs.find((b) => b.id === id);
+  const queryClient = useQueryClient();
 
-  if (!blog) {
+  const { data: blog, isLoading, error } = useQuery({
+    queryKey: ["blog", id],
+    queryFn: () => fetchBlog(id),
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteBlog,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["blogs"] });
+      router.push("/blog");
+    },
+    onError: (error) => {
+      alert(`Error: ${error.message}`);
+    },
+  });
+
+  const handleDelete = () => {
+    if (confirm("Are you sure you want to delete this blog post?")) {
+      deleteMutation.mutate(id);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="container mx-auto px-4 py-20 flex items-center justify-center min-h-[60vh]">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (error || !blog) {
     return (
       <div className="container mx-auto px-4 py-20 max-w-2xl">
         <motion.div
@@ -43,13 +99,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       </div>
     );
   }
-
-  const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this blog post?")) {
-      setBlogs(blogs.filter((b) => b.id === id));
-      router.push("/blog");
-    }
-  };
 
   return (
     <div className="container mx-auto px-4 py-20 max-w-4xl">
@@ -90,21 +139,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               })}</span>
             </div>
           </div>
-
-          {/* Tags */}
-          {blog.tags && blog.tags.length > 0 && (
-            <div className="flex items-center gap-2 flex-wrap">
-              <Tag className="h-4 w-4 text-muted-foreground" />
-              {blog.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="text-sm px-3 py-1 rounded-full bg-primary/10 text-primary"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Divider */}
@@ -124,9 +158,17 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               Edit Post
             </Link>
           </Button>
-          <Button variant="destructive" onClick={handleDelete}>
-            <Trash2 className="mr-2 h-4 w-4" />
-            Delete Post
+          <Button 
+            variant="destructive" 
+            onClick={handleDelete}
+            disabled={deleteMutation.isPending}
+          >
+            {deleteMutation.isPending ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Trash2 className="mr-2 h-4 w-4" />
+            )}
+            {deleteMutation.isPending ? "Deleting..." : "Delete Post"}
           </Button>
         </div>
       </motion.article>
