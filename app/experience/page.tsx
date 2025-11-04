@@ -173,15 +173,29 @@ export default function ExperiencePage() {
                   <div className="border-t pt-4 mt-4">
                     <h4 className="font-semibold mb-3">Impact Highlights:</h4>
                     <ul className="space-y-2">
-                      {exp.highlights.map((highlight, idx) => (
-                        <li
-                          key={idx}
-                          className="flex items-start gap-2 text-sm text-muted-foreground"
-                        >
-                          <span className="text-primary mt-1">•</span>
-                          <span>{highlight}</span>
-                        </li>
-                      ))}
+                      {exp.highlights.map((highlight, idx) => {
+                        // Check if the line starts with an emoji or is a section header
+                        const startsWithEmoji = /^[\u{1F300}-\u{1F9FF}]/u.test(highlight);
+                        const isEmptyLine = highlight.trim() === "";
+                        
+                        if (isEmptyLine) {
+                          return <div key={idx} className="h-2" />;
+                        }
+                        
+                        return (
+                          <li
+                            key={idx}
+                            className="flex items-start gap-2 text-sm text-muted-foreground"
+                          >
+                            {!startsWithEmoji && (
+                              <span className="text-primary mt-1">•</span>
+                            )}
+                            <span className={startsWithEmoji ? "font-semibold" : ""}>
+                              {highlight}
+                            </span>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
                 </motion.div>
