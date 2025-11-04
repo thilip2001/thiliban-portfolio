@@ -174,23 +174,26 @@ export default function ExperiencePage() {
                     <h4 className="font-semibold mb-3">Impact Highlights:</h4>
                     <ul className="space-y-2">
                       {exp.highlights.map((highlight, idx) => {
-                        // Check if the line starts with an emoji or is a section header
-                        const startsWithEmoji = /^[\u{1F300}-\u{1F9FF}]/u.test(highlight);
+                        // Check if line is empty
                         const isEmptyLine = highlight.trim() === "";
                         
                         if (isEmptyLine) {
                           return <div key={idx} className="h-2" />;
                         }
                         
+                        // Check if line already starts with bullet (•) or emoji
+                        const hasOwnBullet = highlight.trim().startsWith("•");
+                        const isHeaderLine = /^[🏗️🌍💎🏆]/.test(highlight);
+                        
                         return (
                           <li
                             key={idx}
                             className="flex items-start gap-2 text-sm text-muted-foreground"
                           >
-                            {!startsWithEmoji && (
-                              <span className="text-primary mt-1">•</span>
+                            {!hasOwnBullet && !isHeaderLine && (
+                              <span className="text-primary mt-1 shrink-0">•</span>
                             )}
-                            <span className={startsWithEmoji ? "font-semibold" : ""}>
+                            <span className={isHeaderLine ? "font-semibold text-foreground" : ""}>
                               {highlight}
                             </span>
                           </li>
