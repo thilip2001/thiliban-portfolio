@@ -6,6 +6,7 @@ import { Github, Linkedin, FileText, Mail } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { AwardBanner } from "@/components/award-banner";
 
 const roles = [
   "Frontend Developer",
@@ -25,7 +26,9 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-20">
+    <>
+      <AwardBanner />
+      <div className="container mx-auto px-4 py-20 mt-20">
       <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
         {/* Text Content */}
         <motion.div
@@ -190,5 +193,6 @@ export default function Home() {
         ))}
       </motion.div>
     </div>
+    </>
   );
 }
