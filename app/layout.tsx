@@ -7,6 +7,7 @@ import { Footer } from "@/components/layout/footer";
 import { Provider } from "jotai";
 import { ReactQueryProvider } from "@/providers/react-query-provider";
 import { Toaster } from "sonner";
+import { ChatBot } from "@/components/chat-bot";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,6 +43,7 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <Toaster position="top-right" richColors />
+              <ChatBot />
               <div className="flex flex-col min-h-screen">
                 <Header />
                 <main className="flex-1">{children}</main>
