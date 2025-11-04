@@ -19,8 +19,9 @@ export default function AdminPage() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Simple password check (replace with your actual password)
-    if (password === "Thiliban@2024") {
+    // Check password from environment variable
+    const adminPassword = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "Thiliban@2024";
+    if (password === adminPassword) {
       setIsAdmin(true);
       alert("Admin access granted!");
       router.push("/blog");

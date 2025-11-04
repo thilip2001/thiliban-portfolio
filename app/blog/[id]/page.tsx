@@ -9,6 +9,7 @@ import { use } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { isAdminAtom } from "@/atoms/blogAtom";
+import { toast } from "sonner";
 
 interface Blog {
   id: string;
@@ -59,10 +60,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     mutationFn: deleteBlog,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
+      toast.success("Blog post deleted successfully!");
       router.push("/blog");
     },
     onError: (error) => {
-      alert(`Error: ${error.message}`);
+      toast.error("Failed to delete blog post", {
+        description: error.message,
+      });
     },
   });
 

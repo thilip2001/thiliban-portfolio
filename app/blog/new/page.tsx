@@ -12,6 +12,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useAtom } from "jotai";
 import { isAdminAtom } from "@/atoms/blogAtom";
+import { toast } from "sonner";
 
 interface CreateBlogData {
   title: string;
@@ -49,10 +50,15 @@ export default function NewBlogPage() {
     mutationFn: createBlog,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
+      toast.success("Blog post created successfully!", {
+        description: "Your blog post has been published.",
+      });
       router.push("/blog");
     },
     onError: (error) => {
-      alert(`Error: ${error.message}`);
+      toast.error("Failed to create blog post", {
+        description: error.message,
+      });
     },
   });
 

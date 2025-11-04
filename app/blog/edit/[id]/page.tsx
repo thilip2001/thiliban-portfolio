@@ -13,6 +13,7 @@ import { ArrowLeft, Save, Loader2 } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { isAdminAtom } from "@/atoms/blogAtom";
+import { toast } from "sonner";
 
 interface Blog {
   id: string;
@@ -88,10 +89,13 @@ export default function EditBlogPage({ params }: EditBlogPageProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["blog", id] });
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
+      toast.success("Blog post updated successfully!");
       router.push(`/blog/${id}`);
     },
     onError: (error) => {
-      alert(`Error: ${error.message}`);
+      toast.error("Failed to update blog post", {
+        description: error.message,
+      });
     },
   });
 
@@ -99,7 +103,7 @@ export default function EditBlogPage({ params }: EditBlogPageProps) {
     e.preventDefault();
 
     if (!title.trim() || !content.trim()) {
-      alert("Please fill in all required fields");
+      toast.error("Please fill in all required fields");
       return;
     }
 
