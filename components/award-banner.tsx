@@ -8,17 +8,16 @@ import { Button } from "@/components/ui/button";
 export function AwardBanner() {
   const [isVisible, setIsVisible] = useState(true);
 
-  if (!isVisible) return null;
-
   return (
     <AnimatePresence>
-      <motion.div
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: -100, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 100, damping: 20 }}
-        className="fixed top-0 left-0 right-0 z-50 pointer-events-none"
-      >
+      {isVisible && (
+        <motion.div
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -100, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          className="fixed top-0 left-0 right-0 z-50 pointer-events-none"
+        >
         <div className="container mx-auto px-4 pt-4">
           <motion.div
             initial={{ scale: 0.95 }}
@@ -114,10 +113,14 @@ export function AwardBanner() {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => setIsVisible(false)}
-                className="shrink-0 hover:bg-white/20 text-white"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsVisible(false);
+                }}
+                className="shrink-0 hover:bg-white/20 text-white z-10 relative"
               >
                 <X className="h-4 w-4" />
+                <span className="sr-only">Close banner</span>
               </Button>
             </div>
 
@@ -159,6 +162,7 @@ export function AwardBanner() {
           </motion.div>
         </div>
       </motion.div>
+      )}
     </AnimatePresence>
   );
 }
