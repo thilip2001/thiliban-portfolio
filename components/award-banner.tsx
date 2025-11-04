@@ -23,12 +23,12 @@ export function AwardBanner() {
           <motion.div
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}
-            className="relative overflow-hidden rounded-2xl bg-linear-to-r from-yellow-400 via-amber-500 to-orange-500 shadow-2xl pointer-events-auto"
+            className="relative overflow-hidden rounded-2xl bg-linear-to-r from-purple-600 via-blue-600 to-indigo-700 shadow-2xl shadow-purple-500/50 pointer-events-auto border border-purple-400/30"
           >
             {/* Animated background glow */}
             <div className="absolute inset-0 overflow-hidden">
               <motion.div
-                className="absolute inset-0 bg-linear-to-r from-yellow-300/30 via-transparent to-orange-300/30"
+                className="absolute inset-0 bg-linear-to-r from-purple-400/30 via-blue-400/30 to-indigo-400/30"
                 animate={{
                   x: ["-100%", "100%"],
                 }}
@@ -36,6 +36,19 @@ export function AwardBanner() {
                   duration: 3,
                   repeat: Infinity,
                   ease: "linear",
+                }}
+              />
+              {/* Radial glow effect */}
+              <motion.div
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-radial-gradient from-white/10 to-transparent"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.5, 0.8, 0.5],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
                 }}
               />
             </div>
@@ -57,17 +70,18 @@ export function AwardBanner() {
                   className="shrink-0"
                 >
                   <div className="relative">
-                    <Trophy className="h-10 w-10 text-white drop-shadow-lg" />
+                    <div className="absolute inset-0 bg-yellow-300 rounded-full blur-md opacity-60" />
+                    <Trophy className="relative h-10 w-10 text-yellow-300 drop-shadow-2xl" />
                     <motion.div
                       animate={{
-                        scale: [1, 1.5, 1],
-                        opacity: [0.5, 0, 0.5],
+                        scale: [1, 1.8, 1],
+                        opacity: [0.4, 0, 0.4],
                       }}
                       transition={{
                         duration: 2,
                         repeat: Infinity,
                       }}
-                      className="absolute inset-0 bg-white rounded-full blur-xl"
+                      className="absolute inset-0 bg-yellow-200 rounded-full blur-xl"
                     />
                   </div>
                 </motion.div>
@@ -109,7 +123,7 @@ export function AwardBanner() {
 
             {/* Animated border shine effect */}
             <motion.div
-              className="absolute inset-0 bg-linear-to-r from-transparent via-white to-transparent opacity-30"
+              className="absolute inset-0 bg-linear-to-r from-transparent via-white to-transparent opacity-20"
               animate={{
                 x: ["-200%", "200%"],
               }}
@@ -119,6 +133,29 @@ export function AwardBanner() {
                 repeatDelay: 2,
               }}
             />
+            
+            {/* Floating particles effect */}
+            <div className="absolute inset-0 opacity-30">
+              {[...Array(6)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-2 h-2 bg-white rounded-full"
+                  style={{
+                    left: `${15 + i * 15}%`,
+                    top: "50%",
+                  }}
+                  animate={{
+                    y: [-10, -30, -10],
+                    opacity: [0.3, 1, 0.3],
+                  }}
+                  transition={{
+                    duration: 2 + i * 0.3,
+                    repeat: Infinity,
+                    delay: i * 0.2,
+                  }}
+                />
+              ))}
+            </div>
           </motion.div>
         </div>
       </motion.div>
