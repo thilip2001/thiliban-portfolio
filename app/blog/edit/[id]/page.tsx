@@ -58,6 +58,17 @@ export default function EditBlogPage({ params }: EditBlogPageProps) {
   const { id } = use(params);
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Check admin access
+  useState(() => {
+    const adminKey = localStorage.getItem("adminKey");
+    if (adminKey !== "thiliban-admin-2024") {
+      router.push("/blog");
+    } else {
+      setIsAdmin(true);
+    }
+  });
 
   const { data: blog, isLoading, error } = useQuery({
     queryKey: ["blog", id],
@@ -106,7 +117,7 @@ export default function EditBlogPage({ params }: EditBlogPageProps) {
     });
   };
 
-  if (isLoading) {
+  if (isLoading || !isAdmin) {
     return (
       <div className="container mx-auto px-4 py-20 flex items-center justify-center min-h-[60vh]">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />

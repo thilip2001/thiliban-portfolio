@@ -34,8 +34,19 @@ async function createBlog(data: CreateBlogData) {
 export default function NewBlogPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  // Check admin access
+  useState(() => {
+    const adminKey = localStorage.getItem("adminKey");
+    if (adminKey !== "thiliban-admin-2024") {
+      router.push("/blog");
+    } else {
+      setIsAdmin(true);
+    }
+  });
 
   const mutation = useMutation({
     mutationFn: createBlog,
@@ -66,6 +77,14 @@ export default function NewBlogPage() {
       excerpt,
     });
   };
+
+  if (!isAdmin) {
+    return (
+      <div className="container mx-auto px-4 py-20 flex items-center justify-center min-h-[60vh]">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-20 max-w-4xl">

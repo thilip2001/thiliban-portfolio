@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, ArrowLeft, Edit, Trash2, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { use } from "react";
+import { use, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface Blog {
@@ -46,6 +46,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   const { id } = use(params);
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Check admin access
+  useState(() => {
+    const adminKey = localStorage.getItem("adminKey");
+    setIsAdmin(adminKey === "thiliban-admin-2024");
+  });
 
   const { data: blog, isLoading, error } = useQuery({
     queryKey: ["blog", id],
@@ -146,31 +153,33 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Content */}
         <div
-          className="prose prose-neutral dark:prose-invert max-w-none"
+          className="prose prose-neutral dark:prose-invert max-w-none leading-relaxed"
           dangerouslySetInnerHTML={{ __html: blog.content }}
         />
 
-        {/* Actions */}
-        <div className="border-t pt-8 flex gap-4">
-          <Button asChild variant="outline">
-            <Link href={`/blog/edit/${blog.id}`}>
-              <Edit className="mr-2 h-4 w-4" />
-              Edit Post
-            </Link>
-          </Button>
-          <Button 
-            variant="destructive" 
-            onClick={handleDelete}
-            disabled={deleteMutation.isPending}
-          >
-            {deleteMutation.isPending ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Trash2 className="mr-2 h-4 w-4" />
-            )}
-            {deleteMutation.isPending ? "Deleting..." : "Delete Post"}
-          </Button>
-        </div>
+        {/* Actions - Only for Admin */}
+        {isAdmin && (
+          <div className="border-t pt-8 flex gap-4">
+            <Button asChild variant="outline">
+              <Link href={`/blog/edit/${blog.id}`}>
+                <Edit className="mr-2 h-4 w-4" />
+                Edit Post
+              </Link>
+            </Button>
+            <Button 
+              variant="destructive" 
+              onClick={handleDelete}
+              disabled={deleteMutation.isPending}
+            >
+              {deleteMutation.isPending ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Trash2 className="mr-2 h-4 w-4" />
+              )}
+              {deleteMutation.isPending ? "Deleting..." : "Delete Post"}
+            </Button>
+          </div>
+        )}
       </motion.article>
     </div>
   );
