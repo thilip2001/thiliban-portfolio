@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Building2, Globe, TrendingUp, Trophy } from "lucide-react";
 import { useState } from "react";
 
 const experiences = [
@@ -14,7 +14,7 @@ const experiences = [
     description:
       "Core frontend team member contributing to both Plato (internal CRM) and the main PickYourTrail product. Leading modernization efforts and delivering high-impact features across multiple business-critical modules.",
     highlights: [
-      "🏗️ PLATO (Internal CRM Platform) - Mission-critical platform for Sales, CX, Visa, and Finance teams:",
+      "PLATO_HEADER",
       "• Delivered 80+ high-impact features across Sales, Cost Sheet, CX, AO, Visa, and Refund modules",
       "• Built complex dashboards (Sales Metrics, AO, CX Leads, Dialer, Post-Feedback, Collection) for data visibility",
       "• Designed CUES (Customer Profiling) - data-driven system showing repeat customers and engagement metrics",
@@ -26,7 +26,7 @@ const experiences = [
       "• Implemented AI dashboards (Score.AI, Sherpa) for call transcription, scoring, and Sales coaching insights",
       "• Introduced Vitest unit testing for long-term maintainability and confidence in releases",
       "",
-      "🌍 PICKYOURTRAIL (Customer-Facing Platform) - Modernization Initiative:",
+      "PICKYOURTRAIL_HEADER",
       "• Leading migration from React 16 to Next.js 15 with App Router, ShadCN, and Tailwind",
       "• Migrating Flight Listing and Flight Details modules with modern architecture",
       "• Refactoring legacy code for improved maintainability and performance",
@@ -35,12 +35,12 @@ const experiences = [
       "• Enhancing developer productivity with GitHub Copilot and Cursor AI",
       "• Collaborating with backend teams to improve API efficiency and page load performance",
       "",
-      "� IMPACT METRICS:",
+      "IMPACT_HEADER",
       "• Maintained <2% post-release bug rate across major deliveries",
       "• Reduced manual effort by 80% through automation features",
       "• Improved load time and UX through critical component refactors",
       "",
-      "🏆 ACHIEVEMENTS & LEADERSHIP:",
+      "ACHIEVEMENTS_HEADER",
       "• Rookie of the Year – Outstanding Technical Contributions award",
       "• Authored internal tech blogs (Zod + React Hook Form, React Query, Jotai state management)",
       "• Mentored junior developers in React, debugging, and code optimization",
@@ -181,21 +181,51 @@ export default function ExperiencePage() {
                           return <div key={idx} className="h-2" />;
                         }
                         
-                        // Check if line already starts with bullet (•) or emoji
+                        // Check for header types
+                        const headerConfig: Record<string, { icon: React.ReactNode; text: string }> = {
+                          PLATO_HEADER: {
+                            icon: <Building2 className="h-4 w-4 text-primary" />,
+                            text: "PLATO (Internal CRM Platform) - Mission-critical platform for Sales, CX, Visa, and Finance teams:",
+                          },
+                          PICKYOURTRAIL_HEADER: {
+                            icon: <Globe className="h-4 w-4 text-primary" />,
+                            text: "PICKYOURTRAIL (Customer-Facing Platform) - Modernization Initiative:",
+                          },
+                          IMPACT_HEADER: {
+                            icon: <TrendingUp className="h-4 w-4 text-primary" />,
+                            text: "IMPACT METRICS:",
+                          },
+                          ACHIEVEMENTS_HEADER: {
+                            icon: <Trophy className="h-4 w-4 text-primary" />,
+                            text: "ACHIEVEMENTS & LEADERSHIP:",
+                          },
+                        };
+                        
+                        const headerInfo = headerConfig[highlight];
+                        if (headerInfo) {
+                          return (
+                            <li
+                              key={idx}
+                              className="flex items-start gap-2 text-sm font-semibold text-foreground"
+                            >
+                              {headerInfo.icon}
+                              <span>{headerInfo.text}</span>
+                            </li>
+                          );
+                        }
+                        
+                        // Check if line already starts with bullet (•)
                         const hasOwnBullet = highlight.trim().startsWith("•");
-                        const isHeaderLine = /^[🏗️🌍💎🏆]/.test(highlight);
                         
                         return (
                           <li
                             key={idx}
                             className="flex items-start gap-2 text-sm text-muted-foreground"
                           >
-                            {!hasOwnBullet && !isHeaderLine && (
+                            {!hasOwnBullet && (
                               <span className="text-primary mt-1 shrink-0">•</span>
                             )}
-                            <span className={isHeaderLine ? "font-semibold text-foreground" : ""}>
-                              {highlight}
-                            </span>
+                            <span>{highlight}</span>
                           </li>
                         );
                       })}
