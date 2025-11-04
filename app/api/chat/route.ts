@@ -1,8 +1,11 @@
-import { streamText } from "ai";
-import { openai } from "@ai-sdk/openai";
+import OpenAI from "openai";
 import { personalInfo, skills, experiences } from "@/lib/data";
 
 export const runtime = "edge";
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 export async function POST(req: Request) {
   try {
@@ -55,17 +58,56 @@ Instructions:
     }
 
     // Call OpenAI API with streaming
-    const result = streamText({
-      model: openai("gpt-3.5-turbo"),
-      system: systemPrompt,
-      messages,
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "system", content: systemPrompt }, ...messages],
       temperature: 0.7,
+      stream: true,
     });
 
-    // Return streaming response
-    return result.toTextStreamResponse();
-  } catch (error) {
+    // Create a readable stream from OpenAI response
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of response) {
+            const text = chunk.choices[0]?.delta?.content || "";
+            if (text) {
+              controller.enqueue(encoder.encode(text));
+            }
+          }
+          controller.close();
+        } catch (error) {
+          console.error("Stream error:", error);
+          controller.error(error);
+        }
+      },
+    });
+
+    // Return as a standard Response with streaming
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+      },
+    });
+  } catch (error: any) {
     console.error("AI Chat error:", error);
+    
+    // Handle OpenAI quota exceeded error
+    if (error?.status === 429 || error?.message?.includes("quota")) {
+      return new Response(
+        "I apologize, but the AI service is currently unavailable due to quota limits. Please try again later or use the contact form to reach out directly.",
+        { 
+          status: 200,
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+          },
+        }
+      );
+    }
+    
     return new Response(
       JSON.stringify({
         error:

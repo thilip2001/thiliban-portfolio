@@ -71,20 +71,14 @@ export function ChatBot() {
           const { done, value } = await reader.read();
           if (done) break;
 
-          const chunk = decoder.decode(value);
-          const lines = chunk.split("\n").filter((line) => line.trim());
-
-          for (const line of lines) {
-            if (line.startsWith("0:")) {
-              const text = line.slice(2).replace(/^"|"$/g, "");
-              assistantMessage += text;
-              setMessages((prev) =>
-                prev.map((m) =>
-                  m.id === assistantId ? { ...m, content: assistantMessage } : m
-                )
-              );
-            }
-          }
+          const chunk = decoder.decode(value, { stream: true });
+          assistantMessage += chunk;
+          
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === assistantId ? { ...m, content: assistantMessage } : m
+            )
+          );
         }
       }
     } catch (error) {
